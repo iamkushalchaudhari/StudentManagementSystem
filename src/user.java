@@ -1,8 +1,10 @@
 import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -28,7 +30,7 @@ public class user extends javax.swing.JFrame {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost/schoolmangement", "root", "admin123");
             
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(user.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -52,7 +54,7 @@ public class user extends javax.swing.JFrame {
         PhoneNumber = new javax.swing.JLabel();
         Address = new javax.swing.JLabel();
         NameField = new javax.swing.JTextField();
-        PhoneNo = new javax.swing.JTextField();
+        PhoneField = new javax.swing.JTextField();
         AddressField = new javax.swing.JTextField();
         Username = new javax.swing.JLabel();
         UsernameField = new javax.swing.JTextField();
@@ -62,7 +64,7 @@ public class user extends javax.swing.JFrame {
         TypeDropdown = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        Savebtn = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
@@ -86,6 +88,11 @@ public class user extends javax.swing.JFrame {
         jLabel1.setText("User Type");
 
         TypeDropdown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Teacher", " " }));
+        TypeDropdown.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TypeDropdownActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -103,7 +110,7 @@ public class user extends javax.swing.JFrame {
                         .addGap(67, 67, 67)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(NameField)
-                            .addComponent(PhoneNo)
+                            .addComponent(PhoneField)
                             .addComponent(AddressField)
                             .addComponent(UsernameField)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -126,7 +133,7 @@ public class user extends javax.swing.JFrame {
                 .addGap(43, 43, 43)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(PhoneNumber)
-                    .addComponent(PhoneNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(PhoneField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(43, 43, 43)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Address)
@@ -159,10 +166,10 @@ public class user extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jButton1.setText("Save");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        Savebtn.setText("Save");
+        Savebtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                SavebtnActionPerformed(evt);
             }
         });
 
@@ -190,7 +197,7 @@ public class user extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Savebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(32, 32, 32)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -221,7 +228,7 @@ public class user extends javax.swing.JFrame {
                     .addComponent(jScrollPane1))
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Savebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -233,13 +240,46 @@ public class user extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void SavebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SavebtnActionPerformed
+        try {
+            String name = NameField.getText();
+            String phone = PhoneField.getText();
+            String address = AddressField.getText();
+            String username = UsernameField.getText();
+            String password = PasswordField.getText();
+            String utype = TypeDropdown.getSelectedItem().toString();
+            
+            pst = con.prepareStatement("insert into user(name,phone,address,username,password,utype)values(?,?,?,?,?,?)");
+            pst .setString(1, name);
+            pst .setString(2, phone);
+            pst .setString(3, address);
+            pst .setString(4, username);
+            pst .setString(5, password);
+            pst .setString(6, utype);
+            pst .executeUpdate();
+            JOptionPane.showMessageDialog(this, "User Added.");
+            
+            NameField.setText("");
+            PhoneField.setText("");
+            AddressField.setText("");
+            UsernameField.setText("");
+            PasswordField.setText("");
+            TypeDropdown.setSelectedIndex(-1);
+             
+            NameField.requestFocus();
+            // TODO add your handling code here:
+        } catch (SQLException ex) {
+            Logger.getLogger(user.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_SavebtnActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void TypeDropdownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TypeDropdownActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TypeDropdownActionPerformed
 
     /**
      * @param args the command line arguments
@@ -283,12 +323,12 @@ public class user extends javax.swing.JFrame {
     private javax.swing.JTextField NameField;
     private javax.swing.JLabel Password;
     private javax.swing.JPasswordField PasswordField;
-    private javax.swing.JTextField PhoneNo;
+    private javax.swing.JTextField PhoneField;
     private javax.swing.JLabel PhoneNumber;
+    private javax.swing.JButton Savebtn;
     private javax.swing.JComboBox<String> TypeDropdown;
     private javax.swing.JLabel Username;
     private javax.swing.JTextField UsernameField;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;

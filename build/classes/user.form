@@ -27,7 +27,7 @@
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="jButton1" min="-2" pref="81" max="-2" attributes="0"/>
+                      <Component id="Savebtn" min="-2" pref="81" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                       <Component id="jButton2" min="-2" pref="115" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
@@ -65,7 +65,7 @@
               </Group>
               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jButton1" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                  <Component id="Savebtn" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                   <Component id="jButton2" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                   <Component id="jButton3" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                   <Component id="jButton4" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
@@ -102,7 +102,7 @@
                           <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Component id="NameField" max="32767" attributes="0"/>
-                              <Component id="PhoneNo" alignment="1" max="32767" attributes="0"/>
+                              <Component id="PhoneField" alignment="1" max="32767" attributes="0"/>
                               <Component id="AddressField" alignment="1" max="32767" attributes="0"/>
                               <Component id="UsernameField" alignment="1" max="32767" attributes="0"/>
                           </Group>
@@ -134,7 +134,7 @@
                   <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="PhoneNumber" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="PhoneNo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="PhoneField" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -179,7 +179,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="NameField">
         </Component>
-        <Component class="javax.swing.JTextField" name="PhoneNo">
+        <Component class="javax.swing.JTextField" name="PhoneField">
         </Component>
         <Component class="javax.swing.JTextField" name="AddressField">
         </Component>
@@ -212,6 +212,9 @@
               </StringArray>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TypeDropdownActionPerformed"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
@@ -278,12 +281,12 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="Savebtn">
       <Properties>
         <Property name="text" type="java.lang.String" value="Save"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SavebtnActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButton2">
